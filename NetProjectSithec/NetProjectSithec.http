@@ -1,0 +1,6 @@
+@NetProjectSithec_HostAddress = http://localhost:5164
+
+GET {{NetProjectSithec_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
