@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using NetProjectSithec.Models;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace NetProjectSithec.Controllers
 {
@@ -20,7 +19,7 @@ namespace NetProjectSithec.Controllers
             double rest = number1 - number2 - number3;
             double multiply = number1 * number2 * number3;
             double divide = 0;
-            if (number2 == 0 || number2 == 0)
+            if (number1 == 0 || number2 == 0 || number2 == 0)
                 return BadRequest("No se puede dividir por cero.");
             else
                 divide = number1 / number2 / number3;
@@ -30,13 +29,29 @@ namespace NetProjectSithec.Controllers
         }
 
         [HttpPost("calculate")]
-        public IActionResult Calculate([FromBody] Operations request)
+        public IActionResult Calculate([FromQuery] Operations request)
         {
             double sum = request.Number1 + request.Number2 + request.Number3;
             double rest = request.Number1 - request.Number2 - request.Number3;
             double multiply = request.Number1 * request.Number2 * request.Number3;
-            double divide = 0;
-            if(request.Number2 == 0 || request.Number3 == 0)
+            double divide;
+            if(request.Number1 == 0 || request.Number2 == 0 || request.Number3 == 0)
+                return BadRequest("No se puede dividir por cero.");
+            else
+                divide = request.Number1 / request.Number2 / request.Number3;
+
+            string result = $"Suma: {sum}, Resta: {rest}, Multiplicación: {multiply}, División: {divide}";
+            return Ok(result);
+        }
+
+        [HttpPost("calculateBody")]
+        public IActionResult CalculateFromBody([FromBody] Operations request)
+        {
+            double sum = request.Number1 + request.Number2 + request.Number3;
+            double rest = request.Number1 - request.Number2 - request.Number3;
+            double multiply = request.Number1 * request.Number2 * request.Number3;
+            double divide;
+            if (request.Number1 == 0 || request.Number2 == 0 || request.Number3 == 0)
                 return BadRequest("No se puede dividir por cero.");
             else
                 divide = request.Number1 / request.Number2 / request.Number3;
